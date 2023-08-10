@@ -2,7 +2,7 @@ import { PlayIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from 'react'
 import useSongInfo from '@/store/useSongInfo';
 export default function SearchAll({ allData }: any) {
-    const { setSongId, setPlayListId, setIsTrackPlaying, setView, setArtistId } = useSongInfo()
+    const { setSongId, setPlayListId, setIsTrackPlaying, setView, setArtistId,setSongName } = useSongInfo()
 
     function selectPlaylist(playList) {
         setPlayListId(playList.id)
@@ -11,6 +11,7 @@ export default function SearchAll({ allData }: any) {
     function playSong(song) {
         setSongId(song.id)
         setIsTrackPlaying(true)
+        setSongName(song.name)
     }
     function millisToMinutesAndSeconds(millis) {
         var minutes = Math.floor(millis / 60000);

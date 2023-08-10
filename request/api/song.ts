@@ -15,7 +15,8 @@ export function searchForAll(name) {//搜索与关键词一致的所有结果（
         url: "/search",
         params: {
             type: 1018,
-            keywords: name
+            keywords: name,
+            timestamp:Math.floor(Date.now()/1000)
         }
     })
 
@@ -115,6 +116,14 @@ export function getUserPlayList(uid){//获取用户的歌单
         url:"/user/playlist",
         params:{
             uid
+        }
+    })
+}
+export function getLyric(id){//获取歌曲歌词
+    return service({
+        url:"/lyric",
+        params:{
+            id
         }
     })
 }

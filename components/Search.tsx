@@ -12,7 +12,7 @@ export default function Search({setGlobalPlaylistId,setView,view,setWyySongId,se
     const [searchData, setSearchData] = useState(null)
     const [inputValue, setInputValue] = useState('')
     const inputRef = useRef(null)
-    const {userInfo}=useSongInfo()
+    const {userInfo,setPlayTracks}=useSongInfo()
 
     function handleChange(e) {
         setInputValue(e.target.value)
@@ -23,6 +23,7 @@ export default function Search({setGlobalPlaylistId,setView,view,setWyySongId,se
         }
         const {result}=await searchByName(inputValue)
         result&&setSearchData(result.songs)
+        result&&setPlayTracks(result.songs)
     } 
 
     useEffect(() => {

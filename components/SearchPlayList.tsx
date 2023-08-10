@@ -4,12 +4,16 @@ import React, { useState } from 'react'
 
 export default function SearchPlayList({searchData}:any) {
     const [playList, setPlayList] = useState([])
-    const {setView,setPlayListId}=useSongInfo()
-
+    const {setView,setPlayListId,setPlayTracks}=useSongInfo()
+    function handle(playList){
+        setPlayTracks(playList)
+        setPlayListId(playList?.id)
+        setView('playlist')
+    }
     return (
         <div className='flex flex-wrap gap-4 px-8 pb-28'>
             {searchData && searchData.playLists.slice(0, 4).map((playList) => {
-                return <div onClick={() => {setPlayListId(playList?.id);setView('playlist')}} key={playList?.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
+                return <div onClick={()=>{handle(playList)}} key={playList?.id} className='cursor-pointer relative group w-56 mb-2 bg-neutral-800 hover:bg-neutral-600 rounded-md p-4'>
                     <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-40 group-hover:top-36 right-6'>
                         <PlayIcon className='h-6 w-6 text-black' />
                     </div>

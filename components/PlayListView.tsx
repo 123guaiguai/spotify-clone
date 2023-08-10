@@ -6,6 +6,7 @@ import Song from './Song';
 import useSongInfo from '@/store/useSongInfo';
 import { getAlbumDetail, getPlayListDetail } from '@/request/api/song';
 
+
 export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalPlaylistId, setGlobalCurrentSongId, setGlobalIsTrackPlaying, setGlobalCurrentSongs }: any) {
     const { data: session } = useSession()
     const [opacity, setOpacity] = useState(0)
@@ -15,7 +16,7 @@ export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalP
     const [isMounted, setIsMounted] = useState(false)
     const [isMountedAlbum, setIsMountedAlbum] = useState(false)
 
-    const { playListId, albumId,setAlbumId ,setPlayListId,userInfo  } = useSongInfo()
+    const { playListId, albumId,setAlbumId ,setPlayListId,userInfo ,setPlayTracks } = useSongInfo()
 
     const colors = [
         'from-indigo-500',
@@ -46,20 +47,6 @@ export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalP
         }
     }
 
-    // useEffect(() => {
-    //     async function f() {
-    //         if (session && session.accessToken) {
-    //             const response = await fetch(`https://api.spotify.com/v1/playlists/${globalPlaylistId}`, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${session.accessToken}`
-    //                 }
-    //             })
-    //             const data = await response.json()
-    //             setPlaylistData(data)
-    //         }
-    //     }
-    //     f()
-    // }, [session, globalPlaylistId])
     useEffect(() => {
         setColor(shuffle(colors).pop());
     }, [playListId, albumId])
@@ -68,6 +55,7 @@ export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalP
         async function f() {
             const { playlist } = await getPlayListDetail(playListId)
             setPlayListTracks(playlist.tracks)
+            setPlayTracks(playlist.tracks)
             setPlayListInfo({
                 picUrl: playlist.coverImgUrl,
                 name: playlist.name
@@ -82,6 +70,7 @@ export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalP
         async function f() {
             const { songs, album } = await getAlbumDetail(albumId)
             setPlayListTracks(songs)
+            setPlayTracks(songs)
             setPlayListInfo({
                 picUrl: album.picUrl,
                 name: album.name
@@ -97,7 +86,7 @@ export default function PlayListView({ setWyySongId, setCurrentAudioSrc, globalP
             <header style={{ opacity: opacity }} className='text-white sticky top-0 h-20 z-10 text-4xl bg-neutral-800 p-8 flex items-center font-bold'>
                 <div style={{ opacity: textOpacity }} className='flex items-center'>
                     {playListInfo && <img className='h-8 w-8 mr-6' src={playListInfo?.picUrl} />}
-                    <p>{playListInfo?.name}</p>
+                    <p className=' truncate whitespace-nowrap'>{playListInfo?.name}</p>
                 </div>1
             </header>
             <div className='absolute z-20 top-5 right-8 flex items-center bg-black bg-opacity-70 text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2'>
